@@ -97,9 +97,9 @@ var Timing = (function() {
     }
 
     // Usage
-    //   time(function() { ... }, this, arg1, ...);
+    //   timeMS(function() { ... }, this, arg1, ...);
     //
-    function time(block, binding) {
+    function timeMS(block, binding) {
       var start,
           args = Array.prototype.slice.call(arguments, 2);
 
@@ -111,7 +111,11 @@ var Timing = (function() {
 
       block.apply(binding, args);
 
-      return (now() - start) / 1000;
+      return (now() - start);
+    }
+
+    function time(block, binding) {
+      return timeMS.apply(this, arguments) / 1000;
     }
 
     function get(key) {
@@ -262,6 +266,7 @@ var Timing = (function() {
       ready: ready,
       now: now,
       now_is_native: now_is_native,
+      timeMS: timeMS,
       time: time,
       measure: time,
       get: get,
