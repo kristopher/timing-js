@@ -211,7 +211,40 @@ var Timing = (function() {
     }
 
     function timeToDomComplete() {
-      return timing('fetchStart', 'domComplete')
+      return timing('fetchStart', 'domComplete');
+    }
+
+    function timeToDomReady() {
+      return timing('fetchStart', 'domContentLoadedEventEnd');
+    }
+
+    function pp(f) {
+      var value = f.call(this);
+      if (value === undefined) {
+        value = 'N/A';
+      } else {
+        value = value.toFixed(3)  + 's';
+      }
+      return value + "\n"
+    }
+
+    function log() {
+      var output = "\n";
+      output += "Timings\n";
+      output += "-----------------------------\n";
+      output += "               Network " + pp(network);
+      output += "              Download " + pp(download);
+      output += "           Application " + pp(application);
+      output += "                 Parse " + pp(parse);
+      output += "       External Assets " + pp(external);
+      output += "              Document " + pp(dom);
+      output += "\n"
+      output += "    Time to First Byte " + pp(timeToFirstByte);
+      output += "   Time to Interactive " + pp(timeToInteractive);
+      output += "Time to Document Ready " + pp(timeToDomReady);
+      output += "    Total Time to Load " + pp(total);
+
+      return output;
     }
 
     public_methods = {
@@ -250,9 +283,12 @@ var Timing = (function() {
       tti: timeToInteractive,
       timeToDomComplete: timeToDomComplete,
       ttdc: timeToDomComplete,
+      timeToDomReady: timeToDomReady,
+      ttdr: timeToDomReady,
       timeToLoad: total,
       ttl: total,
-      fromSameOrigin: fromSameOrigin
+      fromSameOrigin: fromSameOrigin,
+      log: log
     }
 
   return public_methods;
