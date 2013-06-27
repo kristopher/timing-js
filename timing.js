@@ -29,12 +29,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var Timing = (function() {
-    var performance_implemented = (typeof window.performance !== 'undefined'),
-        timing_implemented      = (performance_implemented && typeof window.performance.timing !== 'undefined'),
-        navigation_implemented  = (performance_implemented && typeof window.performance.navigation !== 'undefined');
+    var performance_implemented = (window.hasOwnProperty('performance')),
+        timing_implemented      = (performance_implemented && window.performance.hasOwnProperty('timing')),
+        navigation_implemented  = (performance_implemented && window.performance.hasOwnProperty('navigation'));
 
     function warn(message) {
-      if ((typeof console !== 'undefined') && (console.warn)) {
+      if ((window.hasOwnProperty('console')) && (console.warn)) {
         console.warn(message);
       }
     }
@@ -71,6 +71,7 @@ var Timing = (function() {
 
     var now, now_is_native = false;
     if (performance_implemented) {
+      // NOTE Chrome's hasOwnProperty returns false for now.
       if (typeof window.performance.now === 'function') {
         now = function() {
           return window.performance.now();
