@@ -186,7 +186,8 @@ var Timing = (function() {
     }
 
     function external() {
-      if (dom() && parse()) {
+      var d = dom(), p = parse();
+      if ((d !== undefined) && (p !== undefined)) {
         return dom() - parse();
       }
     }
