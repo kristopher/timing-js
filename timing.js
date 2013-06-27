@@ -33,15 +33,21 @@ var Timing = (function() {
         timing_implemented      = (performance_implemented && typeof window.performance.timing !== 'undefined'),
         navigation_implemented  = (performance_implemented && typeof window.performance.navigation !== 'undefined');
 
+    function warn(message) {
+      if ((typeof console !== 'undefined') && (console.warn)) {
+        console.warn(message);
+      }
+    }
+
     if (performance_implemented) {
       if (!timing_implemented) {
-        console.warn('window.performance.timing is not implement.');
+        warn('window.performance.timing is not implement.');
       }
       if (!navigation_implemented) {
-        console.warn('window.performance.navigation is not implement.');
+        warn('window.performance.navigation is not implement.');
       }
     } else {
-      console.warn('window.performance is not implement.');
+      warn('window.performance is not implement.');
     }
 
     var navigationType;
@@ -78,6 +84,8 @@ var Timing = (function() {
       }
     }
     if (!now) {
+      warn('window.performance.now is not implemented, using Date.now');
+
       now = function() {
         return Date.now();
       }
@@ -109,7 +117,7 @@ var Timing = (function() {
       if (timing_implemented) {
         if (!ready()) {
           // Throwing an error might be better.
-          console.warn('document is not loaded yet, timing for some segments may be incorrect.');
+          warn('document is not loaded yet, timing for some segments may be incorrect.');
         }
         return window.performance.timing[key];
       }
@@ -246,6 +254,7 @@ var Timing = (function() {
 
       return output;
     }
+
 
     public_methods = {
       ready: ready,
