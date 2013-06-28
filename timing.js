@@ -29,9 +29,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var Timing = (function() {
-    var performance_implemented = (window.hasOwnProperty('performance')),
-        timing_implemented      = (performance_implemented && window.performance.hasOwnProperty('timing')),
-        navigation_implemented  = (performance_implemented && window.performance.hasOwnProperty('navigation'));
+    var performance_implemented = typeof window.performance !== 'undefined',
+        timing_implemented      = (performance_implemented && typeof window.performance.timing !== 'undefined'),
+        navigation_implemented  = (performance_implemented && typeof window.performance.navigation !== 'undefined');
 
     function warn(message) {
       if ((window.hasOwnProperty('console')) && (console.warn)) {
